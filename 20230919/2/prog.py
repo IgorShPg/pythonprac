@@ -1,0 +1,11 @@
+sum=0
+a=eval(input())
+sum+=a
+while(sum<=21):
+    a=eval(input())
+    sum+=a
+    if(a<=0):
+        print(a)
+        break
+else:
+    print(sum)
