@@ -5,8 +5,10 @@ def pareto(*args):
         help=True
         for j in range(len(args)):
             if i!=j and sravn(args[i],args[j]):
-
+                help=False
+                break
         if help:
-            ans.append(args[i])
-    return res
+            res.append(args[i])
+    return tuple(res)
                 
+print(pareto(*eval(input())))
