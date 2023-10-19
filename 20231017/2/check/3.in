@@ -1,0 +1,3 @@
+:sumf a b c d a+b+c+d
+sumf 2 3 4 5
+quit "{}:{}"
