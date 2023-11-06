@@ -1,0 +1,9 @@
+c = Omnibus()
+c.a=10
+c.b=20
+c1=Omnibus()
+c1.a=30
+c1.d=40
+del c1.d
+del c1.d
+print(c.a,c.b,c1.a,c1.d)
