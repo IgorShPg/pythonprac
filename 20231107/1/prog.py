@@ -14,3 +14,4 @@ class DivStr(collections.UserString):
     
 
 exec(sys.stdin.read())
+
