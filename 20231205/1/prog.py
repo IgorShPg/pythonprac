@@ -7,12 +7,10 @@ ev2=asyncio.Event()
 
 async def writer(queue, delay):
     i = 0
-    await asyncio.sleep(delay)
     while not event.is_set():
-        #await asyncio.sleep(delay)
+        await asyncio.sleep(delay)
         await queue.put(f"{i}_{delay}")
         i += 1
-        await asyncio.sleep(delay)
    
        
 
@@ -24,12 +22,14 @@ async def stacker(queue, stack):
 
 
 async def reader(stack, num, delay):
-    for i in range(num):
-        #await asyncio.sleep(delay)
-        print(await stack.get())
+    i=0
+    while not event.is_set():
         await asyncio.sleep(delay)
-    event.set()
-
+        elem = await stack.get()
+        print(elem)
+        i += 1
+        if i == num:
+            event.set()
 
 async def main():
     a, b, c, n = eval(input())
