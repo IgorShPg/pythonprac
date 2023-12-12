@@ -17,15 +17,37 @@ async def merge(a,b,start,middle,finish,event_1in,event_2in,event_out):
     event_out.set()
 
 
+
 async def mtasks(a):
     s=copy(a)
-    def fun(event_out,r1,r2):
-        if r2-r1<=1:
-            event_out.set()
-            return list()
-        event_1in=asyncio.Event()
-        event_2in=asyncio.Event()
-        return fun(event_1in,r1,(r1+r2)//2)+fun(event_2in,(r1+r2)//2,r2)+[merge(s,s,r1,(r1+r2)//2,r2,event_1in,event_2in,event_out)]
-    return fun(asyncio.Event(),0,len(a)),s
+    operations = []
+    events = []
+    dlin=len(a)
+    help=True
+    count=1
+    B=[0]*dlin
+    C=[i for i in a]
+    for i in range(dlin+1):
+        events.append(asyncio.Event())
+        events[i].set()
+    dist=len(C)
+    while count<dist:
+        for i in range(0,dlin,count*2):
+            z=i+count*2
+            dlin2=len(C)
+            end=min(z,dlin2)
+            events.append(asyncio.Event())
+            operations.append(asyncio.create_task(merge(C if help else B, B if help else C,i,min(i+count,dlin-1),end,events.pop(0),events.pop(0),events[-1])))
+        events.append(events[-1])
+        help=not help
+        count*=2
+    if help:
+        return (operations,C)
+    else:
+        return (operations,B)
+            
+       
+
+
 
 exec(sys.stdin.read())
